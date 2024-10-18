@@ -10,7 +10,9 @@ class Database:
     def __init__(self):
         filepath = self.__filepath()
         if (Path(filepath).exists() is False):
-            raise Exception('File is not existed')
+            # Create a new file with the header
+            with open(filepath, 'x') as file:
+                file.write('id,email,password,name')
 
         file = pd.read_csv(filepath, dtype=str)
         self.students = file.astype(str).to_dict(orient='records')
