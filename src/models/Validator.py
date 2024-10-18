@@ -1,6 +1,10 @@
+import re
+
 class Validator:
     def validate_email(self, email):
-        return email.endswith('@university.com')
+        pattern = r'^[a-zA-Z0-9._%+-]+@university\.com$'
+        return bool(re.match(pattern, email))
 
     def validate_password(self, password):
-        return len(password) > 5 and password[0].isupper() and password[0].isalpha() and password[1:].isnumeric()
+        pattern = r'^[A-Z][a-zA-Z]{4,}\d{3,}$'
+        return bool(re.match(pattern, password))
