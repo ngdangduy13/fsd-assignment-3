@@ -11,7 +11,7 @@ class Database:
         filepath = self.__filepath()
         if (Path(filepath).exists() is False):
             raise Exception('File is not existed')
-    
+
         file = pd.read_csv(filepath, dtype=str)
         self.students = file.astype(str).to_dict(orient='records')
 
@@ -35,15 +35,23 @@ class Database:
 
         return id
 
+    def __is_student_exists(self, email):
+        return email in [student['email'] for student in self.students]
+
     def get_student_by_email_and_password(self, email, password):
         for student in self.students:
             if student['email'] == email and str(student['password']) == str(password):
                 return student
-        return None
+
+        raise Exception("Invalid email or password")
 
     def write_student(self, email, password, name):
+        if (self.__is_student_exists(email)):
+            raise Exception("Student have already existed")
+
         id = self.__generate_student_id()
-        self.students.append({'id': id, 'email': email, 'password': password, 'name': name})
+        self.students.append(
+            {'id': id, 'email': email, 'password': password, 'name': name})
 
         self.__save_current_state()
         return True

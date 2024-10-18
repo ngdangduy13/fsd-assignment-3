@@ -1,3 +1,4 @@
+from models.Database import Database
 from utils.Logger import Logger
 from models.Student import Student
 from models.Validator import Validator
@@ -20,7 +21,8 @@ class StudentController:
         name = input("Enter name: ")
 
         try:
-            Student.register(email, password, name)
+            db = Database()
+            db.write_student(email, password, name)
             Logger.success(f"Enrolling student: {name}")
         except Exception as e:
             Logger.error(e)
@@ -29,8 +31,12 @@ class StudentController:
         email = input("Enter email: ")
         password = input("Enter password: ")
         try:
-            student = Student.login(email, password)
+            db = Database()
+            result = db.get_student_by_email_and_password(email, password)
+            student = Student(
+                result['id'], result['email'], result['password'], result['name'])
             Logger.success(f"Student logged in successfully: {student.name}")
+            return
         except Exception as e:
             Logger.error(e)
 

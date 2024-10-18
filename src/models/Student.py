@@ -3,24 +3,6 @@ from models.Validator import Validator
 
 
 class Student:
-    @staticmethod
-    def register(email, password, name):
-
-        db = Database()
-        if (email in [student['email'] for student in db.students]):
-            raise Exception("Student already exists")
-
-        return db.write_student(email, password, name)
-
-    @staticmethod
-    def login(email, password):
-        db = Database()
-        student = db.get_student_by_email_and_password(email, password)
-        if student:
-            return Student(student['id'], student['email'], student['password'], student['name'])
-
-        raise Exception("Invalid email or password")
-
     def __init__(self, id, email, password, name):
         self.id = id
         self.email = email
