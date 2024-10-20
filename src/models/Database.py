@@ -47,7 +47,7 @@ class Database:
 
         raise Exception("Invalid email or password")
 
-    def write_student(self, email, password, name):
+    def insert_student(self, email, password, name):
         if (self.__is_student_exists(email)):
             raise Exception("Student have already existed")
 

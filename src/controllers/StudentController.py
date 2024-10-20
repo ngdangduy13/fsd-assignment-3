@@ -22,7 +22,7 @@ class StudentController:
 
         try:
             db = Database()
-            db.write_student(email, password, name)
+            db.insert_student(email, password, name)
             Logger.success(f"Enrolling student: {name}")
         except Exception as e:
             Logger.error(e)
