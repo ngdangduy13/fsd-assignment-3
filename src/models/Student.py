@@ -11,7 +11,7 @@ class Student:
         self.subjects = []
 
     def __str__(self):
-        return f"Email: {self.email}"
+        return f"Email: {self.email}, Name: {self.name}"
 
     def __to_dict(self):
         return {'id': self.id, 'email': self.email, 'password': self.password, 'name': self.name}
