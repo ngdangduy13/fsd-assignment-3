@@ -2,9 +2,13 @@ from models.Database import Database
 from utils.Logger import Logger
 from models.Student import Student
 from models.Validator import Validator
+from controllers.SubjectController import SubjectEnrollment
 
 
 class StudentController:
+    def __init__(self):
+        self.student = None
+
     def register(self):
         email = input("Enter email: ")
         password = input("Enter password: ")
@@ -33,10 +37,8 @@ class StudentController:
         try:
             db = Database()
             result = db.get_student_by_email_and_password(email, password)
-            student = Student(
+            return Student(
                 result['id'], result['email'], result['password'], result['name'])
-            Logger.success(f"Student logged in successfully: {student.name}")
-            return
         except Exception as e:
             Logger.error(e)
 
@@ -52,7 +54,11 @@ class StudentController:
             if option == "r":
                 self.register()
             elif option == "l":
-                self.login()
+                student = self.login()
+                if (student is not None):
+                    self.student = student
+                    subject_enrollment = SubjectEnrollment(self.student)
+                    subject_enrollment.course_menu()
             elif option == "x":
                 break
             else:
