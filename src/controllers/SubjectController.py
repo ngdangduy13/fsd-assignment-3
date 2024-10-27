@@ -1,4 +1,5 @@
 from models.Subject import Subject
+from models.Validator import Validator
 
 class SubjectEnrollment:
     def __init__(self,student):
@@ -36,11 +37,15 @@ class SubjectEnrollment:
         print("Updating password")
         new_password = input("New Password: ")
         confirm_password = input("Confirm Password: ")
-        if new_password == confirm_password:
+        
+        if new_password != confirm_password:
+            print("Password does not match - try again")
+
+        if Validator.validate_password(new_password):
             self.password = new_password
             print("Password updated successfully")
         else:
-            print("Password does not match - try again")
+            print("Invalid password format")
 
     def course_menu(self):
         while True:
