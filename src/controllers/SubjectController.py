@@ -1,4 +1,5 @@
 from models.Subject import Subject
+from models.Validator import Validator
 
 class SubjectEnrollment:
     def __init__(self,student):
@@ -36,11 +37,15 @@ class SubjectEnrollment:
         print("Updating password")
         new_password = input("New Password: ")
         confirm_password = input("Confirm Password: ")
-        if new_password == confirm_password:
+        
+        if new_password != confirm_password:
+            print("Password does not match - try again")
+
+        if Validator.validate_password(new_password):
             self.password = new_password
             print("Password updated successfully")
         else:
-            print("Password does not match - try again")
+            print("Invalid password format")
 
     def course_menu(self):
         while True:
@@ -60,18 +65,4 @@ class SubjectEnrollment:
             else:
                 print("Invalid input, try again.")
 
-    def save_to_file(self, filename):
-        with open(filename, 'students.data') as file:
-            for subject in self.enrolled_subejcts.value():
-                file.write(f'{subject.id},{subject.mark},{subject.grade}\n')
-        print(f'Enrolled subjects saved to {filename}')
-
-    def load_from_file(self, filename):
-        try:
-            with open(filename, 'students.data') as file:
-                for line in file:
-                    subject_id, mark, grade = line .strip().split(',')
-                    self.enrolled_subjects[subject_id] = Subject(subject_id, grade, mark)
-            print(f'Enrolled subjects loaded from {filename}')
-        except FileNotFoundError:
-            print(f'No filename named {filename} found')
+   

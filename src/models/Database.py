@@ -87,3 +87,25 @@ class Database:
         self.students = []
         self.__save_current_state()
         return True
+
+    def enroll_students_in_subject(self, student_id, subject_id, subject_name, grade = None):
+        for student in self.students:
+            if student['id'] == student_id:
+                if any(sub['id'] == subject_id for sub in student['enrolled_subjects']):
+                    return False
+
+                student['enrolled_subjects'].append({
+                    'id': subject_id,
+                    'name': subject_name,
+                    'grade': grade
+                })
+                self.__save_current_state()
+                return True
+        return False
+
+    def get_student_subjects(self, student_id):
+        for student in self.students:
+            if student['id'] == student_id:
+                return student['enrolled_subjects']
+        return None
+                       
