@@ -1,22 +1,20 @@
+from controllers.AdminController import AdminController
 from controllers.StudentController import StudentController
+from utils.String import StringUtils
 
 
 class UniversityController:
     def main(self):
-        print("THE UNIVERSITY SYSTEM")
         while (True):
-            print("=====================================")
-            print("(A) Admin")
-            print("(S) Student")
-            print("(X) Exit")
-            option = input("Choose an option: ")
-            print("=====================================")
-            if option == "a":
+            option = input(StringUtils.to_cyan_string("University System: (A)Admin, (S)Student, or X: "))
+            if option.lower()  == "a":
+                admin_controller = AdminController()
+                admin_controller.main()
                 continue
-            elif option == "s":
+            elif option.lower() == "s":
                 student_controller = StudentController()
                 student_controller.main()
-            elif option == "x":
+            elif option.lower() == "x":
                 break
             else:
                 print("Invalid option")

@@ -3,6 +3,7 @@ from utils.Logger import Logger
 from models.Student import Student
 from models.Validator import Validator
 from controllers.SubjectController import SubjectEnrollment
+from utils.String import StringUtils
 
 
 class StudentController:
@@ -10,56 +11,56 @@ class StudentController:
         self.student = None
 
     def register(self):
-        email = input("Enter email: ")
-        password = input("Enter password: ")
+        Logger.log_green("Student Sign Up")
+        email = input("Email: ")
+        password = input("Password: ")
 
         validator = Validator()
         is_valid_email = validator.validate_email(email)
         is_valid_password = validator.validate_password(password)
 
         if (is_valid_email is False or is_valid_password is False):
-            Logger.error("Incorrect email or password format")
-            return
+            Logger.log_red("Incorrect email or password format")
+        else:
+            Logger.log_yellow("Email and password formats accepted")
+            name = input("Name: ")
 
-        Logger.success("Email and password formats accepted")
-        name = input("Enter name: ")
-
-        try:
+            Logger.log_yellow(f"Enrolling Student {name}")
             db = Database()
             db.insert_student(email, password, name)
-            Logger.success(f"Enrolling student: {name}")
-        except Exception as e:
-            Logger.error(e)
 
     def login(self):
-        email = input("Enter email: ")
-        password = input("Enter password: ")
-        try:
+        Logger.log_green("Student Sign In")
+        email = input("Email: ")
+        password = input("Password: ")
+
+        validator = Validator()
+        is_valid_email = validator.validate_email(email)
+        is_valid_password = validator.validate_password(password)
+
+        if (is_valid_email is False or is_valid_password is False):
+            Logger.log_red("Incorrect email or password format")
+        else:
+            Logger.log_yellow("Email and password formats accepted")
             db = Database()
-            result = db.get_student_by_email_and_password(email, password)
-            return Student(
-                result['id'], result['email'], result['password'], result['name'])
-        except Exception as e:
-            Logger.error(e)
+            return db.get_student_by_email_and_password(email, password)
 
     def main(self):
-        print("THE STUDENT SYSTEM")
         while (True):
-            print("=====================================")
-            print("(L) Login")
-            print("(R) Register")
-            print("(X) Exit")
-            option = input("Choose an option: ")
-            print("=====================================")
-            if option == "r":
-                self.register()
-            elif option == "l":
-                student = self.login()
-                if (student is not None):
-                    self.student = student
-                    subject_enrollment = SubjectEnrollment(self.student)
-                    subject_enrollment.course_menu()
-            elif option == "x":
-                break
-            else:
-                print("Invalid option")
+            try:
+                option = input(StringUtils.to_cyan_string(
+                    "Student System (l/r/x): "))
+                if option == "r":
+                    self.register()
+                elif option == "l":
+                    student = self.login()
+                    if (student is not None):
+                        self.student = student
+                        subject_enrollment = SubjectEnrollment(self.student)
+                        subject_enrollment.course_menu()
+                elif option == "x":
+                    break
+                else:
+                    print("Invalid option")
+            except Exception as e:
+                Logger.log_red(e)
