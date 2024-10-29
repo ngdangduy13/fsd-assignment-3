@@ -1,12 +1,13 @@
 
 from controllers.UniversityController import UniversityController
 import tkinter as tk
-from views.StudentView import StudentView
+from views.StudentView import LoginView
 
 if __name__ == '__main__':
-    university_controller = UniversityController()
-    university_controller.main()
-    # root = tk.Tk()
-    # app = StudentView(root)
-    # root.mainloop()
+    # university_controller = UniversityController()
+    # university_controller.main()
+    root = tk.Tk()
+
+    app = LoginView(root)
+    root.mainloop()
 

@@ -29,17 +29,15 @@ class StudentController:
             db = Database()
             db.insert_student(email, password, name)
 
-    def login(self):
+    def login(self, email, password):
         Logger.log_green("Student Sign In")
-        email = input("Email: ")
-        password = input("Password: ")
 
         validator = Validator()
         is_valid_email = validator.validate_email(email)
         is_valid_password = validator.validate_password(password)
 
         if (is_valid_email is False or is_valid_password is False):
-            Logger.log_red("Incorrect email or password format")
+            raise Exception("Incorrect email or password format")
         else:
             Logger.log_yellow("Email and password formats accepted")
             db = Database()
@@ -53,7 +51,9 @@ class StudentController:
                 if option == "r":
                     self.register()
                 elif option == "l":
-                    student = self.login()
+                    email = input("Email: ")
+                    password = input("Password: ")
+                    student = self.login(email, password)
                     if (student is not None):
                         self.student = student
                         subject_enrollment = SubjectEnrollment(self.student)

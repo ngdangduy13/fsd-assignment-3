@@ -1,39 +1,92 @@
 import tkinter as tk
 from tkinter import messagebox
+from controllers.StudentController import StudentController
+from models.Subject import Subject
 
 
-class StudentView:
+class EnrollmentWindow(tk.Toplevel):
+    def __init__(self, master, student):
+        super().__init__(master=master)
+        self.student = student
+        
+        self.geometry("400x300")
+        self.title("Enrollment System")
+        self.configure(bg='#607b8d')
+        self.resizable(False, False)
+
+
+        subjects = [Subject(), Subject()]
+        listVar = tk.Variable(value=subjects)
+        subject_list = tk.Listbox(self, listvariable=listVar)
+        subject_list.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+
+        
+        tk.Button(self, text="Enroll", command=self.enroll(master),
+                                  bg='#252525', fg='#ffc107',
+                                  font='Helvetica 10 bold',
+                  ).pack(pady=20)
+
+
+    def enroll(self, master):
+        print('Enroll')
+
+        
+
+
+class LoginView(tk.LabelFrame):
     def __init__(self, master):
-        self.master = master
-        self.master.title("Login Window")
-        self.master.geometry("300x150+100+100")
-        self.master.update_idletasks()
+        super().__init__(master)
+        self.pack()
 
-        # Create and place the username label and entry
-        self.label_username = tk.Label(master, text="Username:")
-        self.label_username.pack(pady=5)
+        master.geometry("400x300")
+        master.title("University System")
+        master.configure(bg='#607b8d')
+        master.resizable(False, False)
+        box = tk.LabelFrame(master, text='Sign In', bg='#607b8d', fg='white',
+                            padx=20, pady=20, font='Helvetica 10 bold')
+        box.columnconfigure(0, weight=1)
+        box.columnconfigure(1, weight=3)
+        box.place(rely=0.5, relx=0.5, anchor='center')
 
-        self.entry_username = tk.Entry(master)
-        self.entry_username.pack(pady=5)
+        self.emailLbl = tk.Label(box, text="Email:", justify='left', fg='#ffc107',
+                                 font='Helvetica 12 bold', bg='#607b8d')
+        self.emailLbl.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
 
-        # Create and place the password label and entry
-        self.label_password = tk.Label(master, text="Password:")
-        self.label_password.pack(pady=5)
+        passwordLbl = tk.Label(box, text="Password:", fg='#ffc107',
+                               font='Helvetica 12 bold', bg='#607b8d')
+        passwordLbl.grid(column=0, row=1, padx=5, pady=5, sticky=tk.W)
 
-        self.entry_password = tk.Entry(master, show="*")
-        self.entry_password.pack(pady=5)
+        self.emailText = tk.StringVar()
+        self.emailField = tk.Entry(box, textvariable=self.emailText)
+        self.emailField.grid(column=1, row=0, padx=5, pady=5)
+        self.emailField.focus()
 
-        # Create and place the login button
-        self.login_button = tk.Button(master, text="Login", command=self.login)
-        self.login_button.pack(pady=10)
+        self.passwordTxt = tk.StringVar()
+        self.passwordField = tk.Entry(
+            box, textvariable=self.passwordTxt, show="*")
+        self.passwordField.grid(column=1, row=1, padx=5, pady=5)
+        
+        self.loginBtn = tk.Button(box, text="Login",
+                                  bg='#252525', fg='#ffc107',
+                                  font='Helvetica 10 bold',
+                                  command= lambda: self.login(master))
+        self.loginBtn.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
 
-    def login(self):
-        username = self.entry_username.get()
-        password = self.entry_password.get()
+        self.cancelBtn = tk.Button(box,
+                                   bg='#252525', fg='#ffc107',
+                                   font='Helvetica 10 bold',
+                                   text="Cancel", command=lambda: master.quit())
+        self.cancelBtn.grid(column=1, row=3, sticky=tk.W, padx=5, pady=5)
 
-        # Check if the credentials match (for demo purposes)
-        if username == "admin" and password == "password":
-            messagebox.showinfo("Login Successful", "Welcome!")
-        else:
-            messagebox.showerror("Login Failed", "Invalid username or password.")
-
+    def login(self, master):
+        try:
+            student_controller = StudentController()
+            # student = student_controller.login(self.emailText.get(), self.passwordTxt.get())
+            student = student_controller.login('duy@university.com', 'Duynguyen12345')
+            # enrollmentRoot =  tk.Tk()
+            master.withdraw()
+            EnrollmentWindow(master, student)
+            # enrollmentRoot.mainloop()
+        except Exception as e:
+            messagebox.showerror("Login", str(e))
+        
