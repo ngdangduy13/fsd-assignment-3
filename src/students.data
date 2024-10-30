@@ -1,3 +1,2 @@
 id,email,password,name,enrolled_subjects
-000001,duy@university.com,Duynguyen111,Duy Nguyen,"[{""id"": ""297"", ""mark"": 92, ""grade"": ""HD""}, {""id"": ""781"", ""mark"": 36, ""grade"": ""F""}]"
-576614,abc@university.com,Abcde12345,Test,[]
+311760,duy@university.com,Duynguyen12345,Duy,"[{""id"": ""247"", ""mark"": 86, ""grade"": ""HD""}, {""id"": ""862"", ""mark"": 44, ""grade"": ""F""}, {""id"": ""601"", ""mark"": 55, ""grade"": ""P""}]"

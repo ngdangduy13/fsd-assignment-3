@@ -13,8 +13,11 @@ class AdminController:
         Logger.log_yellow(f"Student List")
         db = Database()
         students = db.get_all_students()
-        for student in students:
-            print(student)
+        if(len(students) == 0):
+            print("Nothing to display")
+        else:
+            for student in students:
+                print(student)
 
     def clear_database(self):
         Logger.log_yellow(f"Clearing students database")
