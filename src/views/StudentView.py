@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from controllers.StudentController import StudentController
 from models.Subject import Subject
+from models.Database import Database
 
 
 class EnrollmentWindow(tk.Toplevel):
@@ -15,21 +16,26 @@ class EnrollmentWindow(tk.Toplevel):
         self.resizable(False, False)
 
 
-        subjects = [Subject(), Subject()]
-        listVar = tk.Variable(value=subjects)
-        subject_list = tk.Listbox(self, listvariable=listVar)
-        subject_list.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+        subjects = student.enrolled_subjects
+        self.listVar = tk.Variable(value=subjects)
+        self.subject_list = tk.Listbox(self, listvariable=self.listVar).pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
         
-        tk.Button(self, text="Enroll", command=self.enroll(master),
+        self.enrollBtn = tk.Button(self, text="Enroll", command=lambda: self.enroll(master),
                                   bg='#252525', fg='#ffc107',
                                   font='Helvetica 10 bold',
                   ).pack(pady=20)
 
 
     def enroll(self, master):
-        print('Enroll')
+        subject = Subject()
+        self.student.enroll_subject(subject)
+        db = Database()
+        db.update_student(self.student)
 
+        self.listVar.set(self.student.enrolled_subjects)
+
+       
         
 
 
@@ -81,12 +87,9 @@ class LoginView(tk.LabelFrame):
     def login(self, master):
         try:
             student_controller = StudentController()
-            # student = student_controller.login(self.emailText.get(), self.passwordTxt.get())
-            student = student_controller.login('duy@university.com', 'Duynguyen12345')
-            # enrollmentRoot =  tk.Tk()
+            student = student_controller.login(self.emailText.get(), self.passwordTxt.get())
             master.withdraw()
             EnrollmentWindow(master, student)
-            # enrollmentRoot.mainloop()
         except Exception as e:
             messagebox.showerror("Login", str(e))
         

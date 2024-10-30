@@ -14,7 +14,7 @@ class AdminController:
         db = Database()
         students = db.get_all_students()
         if(len(students) == 0):
-            print("Nothing to display")
+            print("< Nothing to display >")
         else:
             for student in students:
                 print(student)
@@ -44,8 +44,12 @@ class AdminController:
         dict = {}
         for item in students:
             dict.setdefault(item.get_grade(), []).append(item)
-        for key, value in dict.items():
-            print(f"{key} --> {[f'{student.name} :: {student.id} --> MARK: {student.get_avg_mark():.2f}' for student in value]}")
+            
+        if(len(dict) == 0):
+            print("< Nothing to display >")
+        else:
+            for key, value in dict.items():
+                print(f"{key} --> {[f'{student.name} :: {student.id} --> MARK: {student.get_avg_mark():.2f}' for student in value]}")
     
     
     def main(self):
