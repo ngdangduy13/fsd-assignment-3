@@ -10,6 +10,7 @@ class AdminController:
         Logger.log_yellow(f"Removing Student {student_id} Account")
 
     def list_students(self):
+        Logger.log_yellow(f"Student List")
         db = Database()
         students = db.get_all_students()
         for student in students:

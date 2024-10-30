@@ -1,2 +1,3 @@
-id,email,password,name
-465485,duy@university.com,Duynguyen12345,Duy Nguyen
+id,email,password,name,enrolled_subjects
+000001,duy@university.com,Duynguyen111,Duy Nguyen,"[{""id"": ""297"", ""mark"": 92, ""grade"": ""HD""}, {""id"": ""781"", ""mark"": 36, ""grade"": ""F""}]"
+576614,abc@university.com,Abcde12345,Test,[]

@@ -10,14 +10,9 @@ class StudentController:
     def __init__(self):
         self.student = None
 
-    def register(self):
-        Logger.log_green("Student Sign Up")
-        email = input("Email: ")
-        password = input("Password: ")
-
-        validator = Validator()
-        is_valid_email = validator.validate_email(email)
-        is_valid_password = validator.validate_password(password)
+    def register(self, email, password):
+        is_valid_email = Validator.validate_email(email)
+        is_valid_password = Validator.validate_password(password)
 
         if (is_valid_email is False or is_valid_password is False):
             Logger.log_red("Incorrect email or password format")
@@ -30,11 +25,8 @@ class StudentController:
             db.insert_student(email, password, name)
 
     def login(self, email, password):
-        Logger.log_green("Student Sign In")
-
-        validator = Validator()
-        is_valid_email = validator.validate_email(email)
-        is_valid_password = validator.validate_password(password)
+        is_valid_email = Validator.validate_email(email)
+        is_valid_password = Validator.validate_password(password)
 
         if (is_valid_email is False or is_valid_password is False):
             raise Exception("Incorrect email or password format")
@@ -48,9 +40,13 @@ class StudentController:
             try:
                 option = input(StringUtils.to_cyan_string(
                     "Student System (l/r/x): "))
-                if option == "r":
-                    self.register()
+                if option == "r": 
+                    Logger.log_green("Student Sign Up")
+                    email = input("Email: ")
+                    password = input("Password: ")
+                    self.register(email, password)
                 elif option == "l":
+                    Logger.log_green("Student Sign In")
                     email = input("Email: ")
                     password = input("Password: ")
                     student = self.login(email, password)
