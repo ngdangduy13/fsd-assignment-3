@@ -28,13 +28,15 @@ class EnrollmentWindow(tk.Toplevel):
 
 
     def enroll(self, master):
-        subject = Subject()
-        self.student.enroll_subject(subject)
-        db = Database()
-        db.update_student(self.student)
+        try:
+            subject = Subject()
+            self.student.enroll_subject(subject)
+            db = Database()
+            db.update_student(self.student)
 
-        self.listVar.set(self.student.enrolled_subjects)
-
+            self.listVar.set(self.student.enrolled_subjects)
+        except Exception as e:
+            messagebox.showerror("Enrollment", str(e))
        
         
 
