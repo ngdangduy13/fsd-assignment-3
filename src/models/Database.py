@@ -17,10 +17,16 @@ class Database:
             with open(student_filepath, 'x') as student_file:
                 student_file.write('{}')
 
-        # Loads student data from the file into a list of Student objects.
-        student_file = pd.read_csv(student_filepath, dtype=str)
-        student_dict = student_file.astype(str).to_dict(orient='records')
-        self.students = [Student(item['id'], item['email'], str(item['password']), item['name'], json.loads(item['enrolled_subjects'])) for item in student_dict]
+        # Load students if file is not empty
+        if os.stat(student_filepath).st_size > 0:
+            student_file = pd.read_csv(student_filepath, dtype=str)
+            student_dict = student_file.astype(str).to_dict(orient='records')
+            self.students = [
+                Student(item['id'], item['email'], str(item['password']), item['name'], json.loads(item['enrolled_subjects']))
+                for item in student_dict
+            ]
+        else:
+            self.students = []
 
     # Returns the file path for the student data file.
     def __student_filepath(self):
@@ -28,20 +34,21 @@ class Database:
         scriptdir = os.path.dirname(scriptpath)
         return scriptdir + "/students.data"
 
-    # Returns the file path for the subject data file.
-    def __subject_filepath(self):
-        scriptpath = os.path.abspath(sys.argv[0])
-        scriptdir = os.path.dirname(scriptpath)
-        return scriptdir + "/subjects.data"
-
     # Saves the current student data to the student data file.
     def __save_current_state(self):
+        # Get the file path for the student data file.
         filepath = self.__student_filepath()
+        
+        # If there are no students in the list, delete the data file and log the deletion.
         if len(self.students) == 0:
-            os.remove(filepath)  # Removes the file if there are no students.
+            os.remove(filepath)
+            print("File deleted as there are no students.")
         else:
-            df = pd.DataFrame([student.to_dict() for student in self.students])  # Converts student data to DataFrame.
-            df.to_csv(filepath, index=False)  # Writes the data to CSV format.
+            # Convert the list of Student objects to a DataFrame for saving.
+            df = pd.DataFrame([student.to_dict() for student in self.students])
+            
+            # Save the DataFrame to a CSV file at the specified path, without an index column.
+            df.to_csv(filepath, index=False)
 
     # Generates a unique student ID that is not already in use.
     def __generate_student_id(self):
