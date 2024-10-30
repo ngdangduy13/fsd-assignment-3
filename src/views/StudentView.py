@@ -38,8 +38,6 @@ class EnrollmentWindow(tk.Toplevel):
         except Exception as e:
             messagebox.showerror("Enrollment", str(e))
        
-        
-
 
 class LoginView(tk.LabelFrame):
     def __init__(self, master):
@@ -50,12 +48,15 @@ class LoginView(tk.LabelFrame):
         master.title("University System")
         master.configure(bg='#607b8d')
         master.resizable(False, False)
+
+        # Sign In Frame
         box = tk.LabelFrame(master, text='Sign In', bg='#607b8d', fg='white',
                             padx=20, pady=20, font='Helvetica 10 bold')
         box.columnconfigure(0, weight=1)
         box.columnconfigure(1, weight=3)
         box.place(rely=0.5, relx=0.5, anchor='center')
 
+        # Email Label and Entry
         self.emailLbl = tk.Label(box, text="Email:", justify='left', fg='#ffc107',
                                  font='Helvetica 12 bold', bg='#607b8d')
         self.emailLbl.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
@@ -87,11 +88,17 @@ class LoginView(tk.LabelFrame):
         self.cancelBtn.grid(column=1, row=3, sticky=tk.W, padx=5, pady=5)
 
     def login(self, master):
+        email = self.emailText.get()
+        password = self.passwordTxt.get()
+        
         try:
             student_controller = StudentController()
-            student = student_controller.login(self.emailText.get(), self.passwordTxt.get())
-            master.withdraw()
-            EnrollmentWindow(master, student)
+            student = student_controller.login(email, password)  # Authenticates and returns a Student instance
+            if student:
+                master.withdraw()  # Hide the login window
+                EnrollmentWindow(master, student)  # Open the enrollment window
+            else:
+                messagebox.showerror("Login", "Invalid email or password.")
         except Exception as e:
             messagebox.showerror("Login", str(e))
         
