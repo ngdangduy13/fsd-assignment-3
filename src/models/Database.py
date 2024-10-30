@@ -88,7 +88,7 @@ class Database:
         return True
 
     def get_all_students(self):
-        return [student for student in self.students]
+        return self.students
 
     def clear_database(self):
         self.students = []

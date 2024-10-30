@@ -53,4 +53,20 @@ class Student:
             self.password = new_password
         else:
             raise Exception("Invalid password format")
+        
+    def get_avg_mark(self):
+        return sum([subject.mark for subject in self.enrolled_subjects]) / len(self.enrolled_subjects)
+    
+    def get_grade(self):
+        avg_mark = self.get_avg_mark()
+        if avg_mark >= 85:
+            return "HD"
+        elif avg_mark >= 75:
+            return "D"
+        elif avg_mark >= 65:
+            return "C"
+        elif avg_mark >= 50:
+            return "P"
+        else:
+            return "F"
 

@@ -28,6 +28,26 @@ class AdminController:
             db.clear_database()
             Logger.log_yellow(f"Students data cleared")
 
+    def partition_students(self):
+        Logger.log_yellow(f"PASS/FAIL Partition")
+        db = Database()
+        students = db.get_all_students()
+        fail_students = [student for student in students if student.get_avg_mark() < 50]
+        pass_students = [student for student in students if student.get_avg_mark() >= 50]
+        print(f"FAIL --> {[f'{student.name} :: {student.id} --> GRADE: {student.get_grade()} - MARK: {student.get_avg_mark():.2f}' for student in fail_students]}")
+        print(f"PASS --> {[f'{student.name} :: {student.id} --> GRADE: {student.get_grade()} - MARK: {student.get_avg_mark():.2f}' for student in pass_students]}")
+        
+    def group_by_grade(self):
+        Logger.log_yellow(f"Grade Grouping")
+        db = Database()
+        students = db.get_all_students()
+        dict = {}
+        for item in students:
+            dict.setdefault(item.get_grade(), []).append(item)
+        for key, value in dict.items():
+            print(f"{key} --> {[f'{student.name} :: {student.id} --> MARK: {student.get_avg_mark():.2f}' for student in value]}")
+    
+    
     def main(self):
         while (True):
             try:
@@ -38,6 +58,10 @@ class AdminController:
                     self.remove_student(student_id)
                 elif option.lower() == "s":
                     self.list_students()
+                elif option.lower() == "g":
+                    self.group_by_grade()
+                elif option.lower() == "p":
+                    self.partition_students()
                 elif option.lower() == "c":
                     self.clear_database()
                 elif option == "x":
