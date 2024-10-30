@@ -97,26 +97,4 @@ class Database:
         self.__save_current_state()  # Saves the empty list to the file.
         return True
 
-    # Enrolls a student in a subject by adding the subject to their list of enrolled subjects.
-    def enroll_students_in_subject(self, student_id, subject_id, subject_name, grade=None):
-        for student in self.students:
-            if student['id'] == student_id:
-                # Checks if the student is already enrolled in the subject.
-                if any(sub['id'] == subject_id for sub in student['enrolled_subjects']):
-                    return False
-                # Appends the new subject to the student's list of enrolled subjects.
-                student['enrolled_subjects'].append({
-                    'id': subject_id,
-                    'name': subject_name,
-                    'grade': grade
-                })
-                self.__save_current_state()  # Saves the updated data.
-                return True
-        return False
-
-    # Retrieves all subjects in which a student is enrolled based on their ID.
-    def get_student_subjects(self, student_id):
-        for student in self.students:
-            if student['id'] == student_id:
-                return student['enrolled_subjects']  # Returns the enrolled subjects.
-        return None
+ 
