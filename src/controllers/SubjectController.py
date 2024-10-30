@@ -8,13 +8,13 @@ class SubjectEnrollment:
     def __init__(self,student):
         self.student = student
 
-    def enrol_subject(self):
+   def enrol_subject(self):
         subject = Subject()
         self.student.enroll_subject(subject)
         Logger.log_yellow(f"Enrolling in Subject-{subject.id}")
         db = Database()
         db.update_student(self.student)
-        Logger.log_yellow(f"You are enrolled in {len(self.enrolled_subjects)} out of {self.max_subjects} subjects")
+        Logger.log_yellow(f"You are enrolled in {len(self.student.enrolled_subjects)} out of {self.student.max_subjects} subjects")
 
     def remove_subject(self, subject_id):
         self.student.remove_subject(subject_id)
