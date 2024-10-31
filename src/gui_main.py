@@ -3,6 +3,6 @@ import tkinter as tk
 from views.StudentView import LoginView
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    app = LoginView(root)
-    root.mainloop()
+    tk = tk.Tk()
+    app = LoginView(tk)
+    app.mainloop()
