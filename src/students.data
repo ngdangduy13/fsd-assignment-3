@@ -1,3 +1,2 @@
 id,email,password,name,enrolled_subjects
-311760,duy@university.com,Duynguyen12345,Duy,"[{""id"": ""469"", ""mark"": 100, ""grade"": ""HD""}, {""id"": ""337"", ""mark"": 100, ""grade"": ""HD""}, {""id"": ""653"", ""mark"": 70, ""grade"": ""C""}, {""id"": ""554"", ""mark"": 75, ""grade"": ""D""}]"
-914627,test@university.com,Abcdf12345,Test,"[{""id"": ""025"", ""mark"": 49, ""grade"": ""F""}, {""id"": ""891"", ""mark"": 83, ""grade"": ""D""}, {""id"": ""829"", ""mark"": 95, ""grade"": ""HD""}, {""id"": ""079"", ""mark"": 56, ""grade"": ""P""}]"
+587419,duy@university.com,Duynguyen12345,Duy Nguyen,"[{""id"": ""846"", ""mark"": 38, ""grade"": ""F""}, {""id"": ""447"", ""mark"": 85, ""grade"": ""HD""}, {""id"": ""026"", ""mark"": 27, ""grade"": ""F""}, {""id"": ""688"", ""mark"": 35, ""grade"": ""F""}]"

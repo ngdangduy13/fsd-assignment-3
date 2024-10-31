@@ -61,6 +61,8 @@ class Student:
 
     # Calculates and returns the student's average mark across all enrolled subjects.
     def get_avg_mark(self):
+        if (len(self.enrolled_subjects) == 0):
+            return 0
         return sum([subject.mark for subject in self.enrolled_subjects]) / len(self.enrolled_subjects)
 
     # Determines and returns the student's grade based on their average mark.
